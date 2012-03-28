@@ -108,7 +108,11 @@ class TmLatestBlog extends PageLinesSection {
 					$this.find('li').each(function(a, item){
 						$item = $(item);
 						$item.css({'height':highest});
-						$item.find('.read-more').css({'position': 'absolute', 'bottom': '5px'});
+						
+						$item.find('.read-more').each( function(a, item){
+							$item = $(item);
+							$item.css({'position': 'absolute', 'bottom': '5px'})
+						} );
 					});
 
 				});			
