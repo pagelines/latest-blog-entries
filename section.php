@@ -102,7 +102,6 @@ class TmLatestBlog extends PageLinesSection {
 					$this = $(this);
 
 					$this.find('li').each(function(a, item){
-						console.log( highest )
 						highest = ( $(item).height() > highest ) ? $(item).height() : highest;
 					});
 
