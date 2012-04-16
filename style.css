@@ -22,6 +22,7 @@
     padding: 15px;
     position: relative;
     width: 183px;
+    display: block;
 }
 
 .latest-slider ul.slides li:hover {
@@ -93,4 +94,8 @@
 
 .latest-slider #prev_pag:hover {
     background-position: 0 -23px;
+}
+
+.latest-slider .blog-thumb img{
+    min-height:100px;
 }

@@ -102,13 +102,14 @@ class TmLatestBlog extends PageLinesSection {
 					$this = $(this);
 
 					$this.find('li').each(function(a, item){
+						console.log( highest )
 						highest = ( $(item).height() > highest ) ? $(item).height() : highest;
 					});
+
 
 					$this.find('li').each(function(a, item){
 						$item = $(item);
 						$item.css({'height':highest});
-						
 						$item.find('.read-more').each( function(a, item){
 							$item = $(item);
 							$item.css({'position': 'absolute', 'bottom': '5px'})
@@ -128,7 +129,7 @@ class TmLatestBlog extends PageLinesSection {
 					},
 					prev:'.latest<?php echo $clone_id?> #prev_pag',
 					next:'.latest<?php echo $clone_id?> #next_pag'
-				});	
+				});
 			});
 		</script>
 	<?
