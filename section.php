@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez	
 Author URI: http://tmeister.net
-Version: 1.0.0
+Version: 1.0.1
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -151,6 +151,7 @@ class TmLatestBlog extends PageLinesSection {
 		$show_date      =  ( ploption('tm_latest_date', $oset) == 'on') ? false : true;
 		$show_excerpt   =  ( ploption('tm_latest_excerpt', $oset) == 'on') ? false : true;
 		$show_read_more =  ( ploption('tm_latest_read_more', $oset) == 'on') ? false : true;
+		$read_more_text =  ( ploption('tm_latest_read_more_text', $oset ) ) ? ploption('tm_latest_read_more_text', $oset )  : 'Read More';
 
 		$posts = $this->get_posts( $set, $limit );
 		if( !count($posts) ){
@@ -201,7 +202,7 @@ class TmLatestBlog extends PageLinesSection {
 						
 						<?php if ($show_read_more): ?>
 							<div class="read-more">
-								<a href="<?php the_permalink() ?>">Read More</a>
+								<a href="<?php the_permalink() ?>"><?php echo $read_more_text ?></a>
 							</div>	
 						<?php endif ?>
 						
@@ -317,6 +318,14 @@ class TmLatestBlog extends PageLinesSection {
 				'inputlabel'	=> __('Don\'t show the read more', $this->domain),
 				'shortexp'		=> __('Default: Visible', $this->domain),
 				'exp'			=> __('Determines whether to show the post read more.', $this->domain)
+			),
+
+			'tm_latest_read_more_text' => array(
+				'type'			=> 'text',
+				'title'			=> __('"Read More" text', $this->domain),
+				'inputlabel'	=> __('Text to show', $this->domain),
+				'shortexp'		=> __('Default: Read More', $this->domain),
+				'exp'			=> __('Change the "Read More" text to show in the link.', $this->domain)
 			),
 
 
