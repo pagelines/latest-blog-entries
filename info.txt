@@ -13,6 +13,8 @@ Some of the great options are:
 * 6 color options
 * Cloneable
 * IE7+, FireFox, Chrome, Safari Support
+* Choose if you want to show the latest blog posts or just a certain category.
+* Excerpt length (independent to the global excerpt function)
 * And many more...
 
 [Follow me at Twitter](http://twitter.com/tmeister "Tmeister")  for news of next versions and new releases.
@@ -32,9 +34,14 @@ Also you can see my other sections
 * 6 color options
 * Cloneable
 * IE7+, FireFox, Chrome, Safari Support
+* Choose if you want to show the latest blog posts or just a certain category.
 
 
 == Changelog ==
+= 1.0.2 = ( APR 28, 2012 )
+* Fix PHP short tag issue
+* Add a option to choose how many words to show in the excerpt. independent to the global excerpt function.
+
 = 1.0.1 = ( APR 16, 2012 )
 * Add option to change the "Read More" text.
 

@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez	
 Author URI: http://tmeister.net
-Version: 1.0.1
+Version: 1.0.2
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -39,7 +39,6 @@ class TmLatestBlog extends PageLinesSection {
 
 	function section_persistent(){
 		add_image_size('latest', 180, 100, true);
-		add_filter( 'excerpt_length', array( $this, 'latest_excerpt_length'), 1000 );
 	} 
 
 	function section_scripts(){
@@ -131,7 +130,7 @@ class TmLatestBlog extends PageLinesSection {
 				});
 			});
 		</script>
-	<?
+	<?php
 	} 
 
 
@@ -139,19 +138,22 @@ class TmLatestBlog extends PageLinesSection {
  	function section_template( $clone_id = null ) {
  		global $post, $pagelines_ID;
 
-		$current_page_post   = $post;
-		$oset                = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
-		$limit               = ( ploption('tm_latest_items', $oset) ) ? ploption('tm_latest_items', $oset) : '8';
-		$set                 = ( ploption('tm_latest_set', $oset) ) ? ploption('tm_latest_set', $oset) : null;
-		$title               = ( ploption('tm_latest_title', $oset) ) ? ploption('tm_latest_title', $oset) : 'Latest from the Blog';
+		$current_page_post = $post;
+		$oset              = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
+		$limit             = ( ploption('tm_latest_items', $oset) ) ? ploption('tm_latest_items', $oset) : '8';
+		$set               = ( ploption('tm_latest_set', $oset) ) ? ploption('tm_latest_set', $oset) : null;
+		$title             = ( ploption('tm_latest_title', $oset) ) ? ploption('tm_latest_title', $oset) : 'Latest from the Blog';
 		
-		$show_thumb     =  ( ploption('tm_latest_thumb', $oset) == 'on') ? false : true;
-		$show_title     =  ( ploption('tm_latest_show_title', $oset) == 'on') ? false : true;
-
-		$show_date      =  ( ploption('tm_latest_date', $oset) == 'on') ? false : true;
-		$show_excerpt   =  ( ploption('tm_latest_excerpt', $oset) == 'on') ? false : true;
-		$show_read_more =  ( ploption('tm_latest_read_more', $oset) == 'on') ? false : true;
-		$read_more_text =  ( ploption('tm_latest_read_more_text', $oset ) ) ? ploption('tm_latest_read_more_text', $oset )  : 'Read More';
+		$show_thumb        =  ( ploption('tm_latest_thumb', $oset) == 'on') ? false : true;
+		$show_title        =  ( ploption('tm_latest_show_title', $oset) == 'on') ? false : true;
+		
+		$show_date         =  ( ploption('tm_latest_date', $oset) == 'on') ? false : true;
+		$show_excerpt      =  ( ploption('tm_latest_excerpt', $oset) == 'on') ? false : true;
+		$show_read_more    =  ( ploption('tm_latest_read_more', $oset) == 'on') ? false : true;
+		$read_more_text    =  ( ploption('tm_latest_read_more_text', $oset ) ) ? ploption('tm_latest_read_more_text', $oset )  : 'Read More';
+		
+		$limit_excerpt     = ( ploption('tm_limit_excerpt', $oset) ) ? ploption('tm_limit_excerpt', $oset) : '20';
+		
 
 		$posts = $this->get_posts( $set, $limit );
 		if( !count($posts) ){
@@ -195,7 +197,7 @@ class TmLatestBlog extends PageLinesSection {
 						
 						<?php if ($show_excerpt): ?>
 							<div class="excerpt">
-								<p><?php the_excerpt() ?></p>
+								<p><?php echo $this->latest_excerpt( get_the_content(), $limit_excerpt ); ?></p>
 							</div>	
 							<div class="clear"></div>
 						<?php endif ?>
@@ -218,7 +220,7 @@ class TmLatestBlog extends PageLinesSection {
 		    
 		</div>
 
- 	<?
+ 	<?php
 	}
 
 	/**
@@ -312,6 +314,15 @@ class TmLatestBlog extends PageLinesSection {
 				'shortexp'		=> __('Default: Visible', $this->domain),
 				'exp'			=> __('Determines whether to show the post excerpt.', $this->domain)
 			),
+			'tm_limit_excerpt' => array(
+				'type' 			=> 'count_select',
+				'title'			=> __('Excerpt - Words to show', $this->domain),
+				'inputlabel'	=> __('Words', $this->domain),
+				'shortexp'		=> __('Default: 20', $this->domain),
+				'exp'			=> __('How many words to show in the excerpt?', $this->domain),
+				'count_start'	=> 5,
+ 				'count_number'	=> 50,
+			),
 			'tm_latest_read_more' => array(
 				'type'			=> 'check',
 				'title'			=> __('Show read more', $this->domain),
@@ -402,8 +413,16 @@ class TmLatestBlog extends PageLinesSection {
 			return array();
 	}
 
-	function latest_excerpt_length($length){
-		return 20;
+
+	function latest_excerpt($excerpt, $limit) {
+		$excerpt = explode(' ', $excerpt, $limit);
+		if (count($excerpt)>=$limit) {
+			array_pop($excerpt);
+			$excerpt = implode(" ",$excerpt).' [...]';
+		} else {
+			$excerpt = implode(" ",$excerpt);
+		}
+		return $excerpt;
 	}
 
 } /* End of section class - No closing php tag needed */
