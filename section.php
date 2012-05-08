@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez	
 Author URI: http://tmeister.net
-Version: 1.0.2
+Version: 1.0.3
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -146,7 +146,9 @@ class TmLatestBlog extends PageLinesSection {
 		
 		$show_thumb        =  ( ploption('tm_latest_thumb', $oset) == 'on') ? false : true;
 		$show_title        =  ( ploption('tm_latest_show_title', $oset) == 'on') ? false : true;
-		
+
+		$use_wp_excerpt 	=  ( ploption('tm_use_wp_excerpt', $oset) == 'on') ? false : true;
+ 		
 		$show_date         =  ( ploption('tm_latest_date', $oset) == 'on') ? false : true;
 		$show_excerpt      =  ( ploption('tm_latest_excerpt', $oset) == 'on') ? false : true;
 		$show_read_more    =  ( ploption('tm_latest_read_more', $oset) == 'on') ? false : true;
@@ -197,7 +199,12 @@ class TmLatestBlog extends PageLinesSection {
 						
 						<?php if ($show_excerpt): ?>
 							<div class="excerpt">
-								<p><?php echo $this->latest_excerpt( get_the_content(), $limit_excerpt ); ?></p>
+								<?php if ($use_wp_excerpt): ?>
+									<p><?php echo $this->latest_excerpt( get_the_excerpt(), $limit_excerpt ); ?></p>
+								<?php else: ?>	
+									<p><?php echo $this->latest_excerpt( get_the_content(), $limit_excerpt ); ?></p>
+								<?php endif ?>
+								
 							</div>	
 							<div class="clear"></div>
 						<?php endif ?>
@@ -314,12 +321,19 @@ class TmLatestBlog extends PageLinesSection {
 				'shortexp'		=> __('Default: Visible', $this->domain),
 				'exp'			=> __('Determines whether to show the post excerpt.', $this->domain)
 			),
+			'tm_use_wp_excerpt' => array(
+				'type'			=> 'check',
+				'title'			=> __('WP Excerpt', $this->domain),
+				'inputlabel'	=> __('Don\'t use the WP excerpt', $this->domain),
+				'shortexp'		=> __('Default: WP Excerpt', $this->domain),
+				'exp'			=> __('Determines whether to use the WP excerpt text or use the post content instead. to show the post excerpt.', $this->domain)
+			),
 			'tm_limit_excerpt' => array(
 				'type' 			=> 'count_select',
 				'title'			=> __('Excerpt - Words to show', $this->domain),
 				'inputlabel'	=> __('Words', $this->domain),
 				'shortexp'		=> __('Default: 20', $this->domain),
-				'exp'			=> __('How many words to show in the excerpt?', $this->domain),
+				'exp'			=> __('In any case, whether you use wp excerpt or the post content, determine how many words you want to display in each box.', $this->domain),
 				'count_start'	=> 5,
  				'count_number'	=> 50,
 			),
@@ -414,15 +428,13 @@ class TmLatestBlog extends PageLinesSection {
 	}
 
 
-	function latest_excerpt($excerpt, $limit) {
-		$excerpt = explode(' ', $excerpt, $limit);
-		if (count($excerpt)>=$limit) {
-			array_pop($excerpt);
-			$excerpt = implode(" ",$excerpt).' [...]';
-		} else {
-			$excerpt = implode(" ",$excerpt);
-		}
-		return $excerpt;
+	function latest_excerpt($text, $limit) {
+		$text = strip_shortcodes( $text );
+		$text = apply_filters('the_content', $text);
+		$text = str_replace(']]>', ']]&gt;', $text);
+		$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
+		$text = wp_trim_words( $text, $limit, $excerpt_more );	
+		return $text;
 	}
 
 } /* End of section class - No closing php tag needed */

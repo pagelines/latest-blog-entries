@@ -38,12 +38,16 @@ Also you can see my other sections
 
 
 == Changelog ==
+= 1.0.3 = ( MAY 08, 2012 )
+* Fix excerpt issue, now strip the html tags and show only the text.
+* Added a option to choose the source from the excerpt, the WP excerpt or the post content.
+
 = 1.0.2 = ( APR 28, 2012 )
 * Fix PHP short tag issue
-* Add a option to choose how many words to show in the excerpt. independent to the global excerpt function.
+* Added a option to choose how many words to show in the excerpt. independent to the global excerpt function.
 
 = 1.0.1 = ( APR 16, 2012 )
-* Add option to change the "Read More" text.
+* Added option to change the "Read More" text.
 
 = 1.0.0 = ( APR 15, 2012 )
 * Public Release
