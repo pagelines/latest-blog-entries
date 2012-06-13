@@ -63,7 +63,7 @@ class TmLatestBlog extends PageLinesSection {
 		$disable_autostart = ( ploption('tm_latest_autostart', $oset) == 'on') ? true : false;
 
 		/*Styles*/
-		$section_bg = ( ploption('tm_latest_section_title_bg', $oset) ) ? ploption('tm_latest_section_title_bg', $oset) : '#ffffff';
+		$section_bg = ( ploption('tm_latest_section_title_bg', $oset) ) ? ploption('tm_latest_section_title_bg', $oset) : '#f7f7f7';
 		$main_bg = ( ploption('tm_latest_main_bg', $oset) ) ? ploption('tm_latest_main_bg', $oset) : '#ffffff';
 		$border  = ( ploption('tm_latest_menu_border', $oset) ) ? ploption('tm_latest_menu_border', $oset) : '#EEEEEE';
 		$shadow  = ( ploption('tm_latest_shadow', $oset) ) ? ploption('tm_latest_shadow', $oset) : '#e4e4e4';
