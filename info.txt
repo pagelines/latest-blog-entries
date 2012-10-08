@@ -38,6 +38,11 @@ Also you can see my other sections
 
 
 == Changelog ==
+= 1.0.4 = ( OCT 08, 2012 )
+* Fix render, wait until the final size are set to create the slider.
+
+
+== Changelog ==
 = 1.0.3 = ( MAY 08, 2012 )
 * Fix excerpt issue, now strip the html tags and show only the text.
 * Added a option to choose the source from the excerpt, the WP excerpt or the post content.
