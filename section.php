@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez	
 Author URI: http://tmeister.net
-Version: 1.0.3
+Version: 1.0.4
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -95,39 +95,41 @@ class TmLatestBlog extends PageLinesSection {
 		</style>
 		<script>
 			jQuery(document).ready(function($) {
+				function renderLatest(){
+					$(".latest<?php echo $clone_id?> .slides").each( function(a, b){
+						var highest = 0;
+						$this = $(this);
 
-				$(".latest<?php echo $clone_id?> .slides").each( function(a, b){
-					var highest = 0;
-					$this = $(this);
-
-					$this.find('li').each(function(a, item){
-						highest = ( $(item).height() > highest ) ? $(item).height() : highest;
-					});
+						$this.find('li').each(function(a, item){
+							highest = ( $(item).height() > highest ) ? $(item).height() : highest;
+						});
 
 
-					$this.find('li').each(function(a, item){
-						$item = $(item);
-						$item.css({'height':highest});
-						$item.find('.read-more').each( function(a, item){
+						$this.find('li').each(function(a, item){
 							$item = $(item);
-							$item.css({'position': 'absolute', 'bottom': '5px'})
-						} );
+							$item.css({'height':highest});
+							$item.find('.read-more').each( function(a, item){
+								$item = $(item);
+								$item.css({'position': 'absolute', 'bottom': '5px'})
+							} );
+						});
+
+					});			
+
+					$(".latest<?php echo $clone_id?> .slides").carouFredSel({
+						align       : "center",
+						width:'100%',
+						<?php echo ( $disable_autostart ) ? 'auto:false,' : 'auto: {pauseDuration:'.$pause_duration.'},'?>
+						scroll: {
+							duration:<?php echo $effect_duration?>,
+							fx: '<?php echo $effect?>',
+							pauseOnHover: <?php echo $pause_on_hover?>
+						},
+						prev:'.latest<?php echo $clone_id?> #prev_pag',
+						next:'.latest<?php echo $clone_id?> #next_pag'
 					});
-
-				});			
-
-				$(".latest<?php echo $clone_id?> .slides").carouFredSel({
-					align       : "center",
-					width:'100%',
-					<?php echo ( $disable_autostart ) ? 'auto:false,' : 'auto: {pauseDuration:'.$pause_duration.'},'?>
-					scroll: {
-						duration:<?php echo $effect_duration?>,
-						fx: '<?php echo $effect?>',
-						pauseOnHover: <?php echo $pause_on_hover?>
-					},
-					prev:'.latest<?php echo $clone_id?> #prev_pag',
-					next:'.latest<?php echo $clone_id?> #next_pag'
-				});
+				}
+				setTimeout(renderLatest,1000)
 			});
 		</script>
 	<?php
