@@ -38,21 +38,22 @@ Also you can see my other sections
 
 
 == Changelog ==
-= 1.0.4 = ( OCT 08, 2012 )
+= 1.0.5 = 
+* Update JS library carouFredSel to 6.1.0
+
+= 1.0.4 = 
 * Fix render, wait until the final size are set to create the slider.
 
-
-== Changelog ==
-= 1.0.3 = ( MAY 08, 2012 )
+= 1.0.3 =
 * Fix excerpt issue, now strip the html tags and show only the text.
 * Added a option to choose the source from the excerpt, the WP excerpt or the post content.
 
-= 1.0.2 = ( APR 28, 2012 )
+= 1.0.2 =
 * Fix PHP short tag issue
 * Added a option to choose how many words to show in the excerpt. independent to the global excerpt function.
 
-= 1.0.1 = ( APR 16, 2012 )
+= 1.0.1 =
 * Added option to change the "Read More" text.
 
-= 1.0.0 = ( APR 15, 2012 )
+= 1.0.0 =
 * Public Release
