@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez	
 Author URI: http://tmeister.net
-Version: 1.0.4
+Version: 1.0.5
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -44,10 +44,10 @@ class TmLatestBlog extends PageLinesSection {
 	function section_scripts(){
 		return array(
 			'carouFredSel' => array(
-				'file'       => $this->base_url . '/jquery.carouFredSel-5.5.0-packed.js',
+				'file'       => $this->base_url . '/jquery.carouFredSel-6.1.0-packed.js',
 				'dependancy' => array('jquery'),
 				'location'   => 'footer',
-				'version'    => '5.5.0'
+				'version'    => '6.1.0'
 			),
 		);
 	}
