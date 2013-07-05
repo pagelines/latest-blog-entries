@@ -1,7 +1,7 @@
 <?php
 /*
 Section: Latest Blog Entries
-Author: Enrique Chávez	
+Author: Enrique Chávez
 Author URI: http://tmeister.net
 Version: 1.0.5
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
@@ -10,7 +10,7 @@ Cloning: true
 External: http://tmeister.net/themes-and-sections/latest-blog-entries/
 Demo: http://pagelines.tmeister.net/latest-blog-posts/
 Workswith: templates, main, morefoot
-
+V3: true
 **/
 
 
@@ -27,9 +27,9 @@ class TmLatestBlog extends PageLinesSection {
 	 *  $this->description	- The section description
 	 *  $this->images		- The root section images URL
 	 *  $this->icon 		- The section icon url
-	 *  $this->screen		- The section screenshot url 
-	 *  $this->oset			- Option settings array... needed for 'ploption' (contains clone_id, post_id)
-	 * 
+	 *  $this->screen		- The section screenshot url
+	 *  $this->oset			- Option settings array... needed for '$this->opt' (contains clone_id, post_id)
+	 *
 	 * 	Advanced Variables
 	 * 		$this->view				- If the section is viewed on a page, archive, or single post
 	 * 		$this->template_type	- The PageLines template type
@@ -39,7 +39,7 @@ class TmLatestBlog extends PageLinesSection {
 
 	function section_persistent(){
 		add_image_size('latest', 180, 100, true);
-	} 
+	}
 
 	function section_scripts(){
 		return array(
@@ -52,58 +52,83 @@ class TmLatestBlog extends PageLinesSection {
 		);
 	}
 
+	function section_styles(){
+		wp_enqueue_script( 'carouFredSel', $this->base_url . '/jquery.carouFredSel-6.1.0-packed.js', array( 'jquery' ), '6.1.0', true );
+	}
+
+	function dmshify(){
+        if( function_exists('pl_has_editor') ){
+            return $this->prefix();
+        }else{
+            return '#nodms';
+        }
+    }
+
+	function get_dms_clone_id($prefix){
+        preg_match('/"([^"]*)"/', $prefix, $match);
+        return $match[1];
+    }
+
 	function section_head( $clone_id = null ){
 		global $pagelines_ID;
-		
-		$oset              = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);		
-		$effect            = ( ploption('tm_latest_effect', $oset) ) ? ploption('tm_latest_effect', $oset) : 'scroll';
-		$effect_duration   = ( ploption('tm_latest_effect_duration', $oset) ) ? ploption('tm_latest_effect_duration', $oset) : '1000';
-		$pause_on_hover    = ( ploption('tm_latest_pause_on_hover', $oset) == 'on') ? 'true' : 'false';
-		$pause_duration    = ( ploption('tm_latest_duration_pause', $oset) ) ? ploption('tm_latest_duration_pause', $oset) : '5000';
-		$disable_autostart = ( ploption('tm_latest_autostart', $oset) == 'on') ? true : false;
+
+		$clone_id      = function_exists('pl_has_editor') ? $this->get_dms_clone_id( $this->prefix() ) : $clone_id;
+		$jsTarget =  ".latest".$clone_id;
+
+
+		$oset              = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
+		$effect            = ( $this->opt('tm_latest_effect', $oset) ) ? $this->opt('tm_latest_effect', $oset) : 'scroll';
+		$effect_duration   = ( $this->opt('tm_latest_effect_duration', $oset) ) ? $this->opt('tm_latest_effect_duration', $oset) : '1000';
+		$pause_on_hover    = ( $this->opt('tm_latest_pause_on_hover', $oset) == 'on') ? 'true' : 'false';
+		$pause_duration    = ( $this->opt('tm_latest_duration_pause', $oset) ) ? $this->opt('tm_latest_duration_pause', $oset) : '5000';
+		$disable_autostart = ( $this->opt('tm_latest_autostart', $oset) == 'on') ? true : false;
 
 		/*Styles*/
-		$section_bg = ( ploption('tm_latest_section_title_bg', $oset) ) ? ploption('tm_latest_section_title_bg', $oset) : '#f7f7f7';
-		$main_bg = ( ploption('tm_latest_main_bg', $oset) ) ? ploption('tm_latest_main_bg', $oset) : '#ffffff';
-		$border  = ( ploption('tm_latest_menu_border', $oset) ) ? ploption('tm_latest_menu_border', $oset) : '#EEEEEE';
-		$shadow  = ( ploption('tm_latest_shadow', $oset) ) ? ploption('tm_latest_shadow', $oset) : '#e4e4e4';
-		$title   = ( ploption('tm_latest_title_color', $oset) ) ? ploption('tm_latest_title_color', $oset) : '#4c4c4c';
-		$text    = ( ploption('tm_latest_text_color', $oset) ) ? ploption('tm_latest_text_color', $oset) : '#555555';
-		
-		
-		
+		$section_bg = ( $this->opt('tm_latest_section_title_bg', $oset) ) ? pl_hashify( $this->opt('tm_latest_section_title_bg', $oset)) : '#f7f7f7';
+		$main_bg = ( $this->opt('tm_latest_main_bg', $oset) ) ? pl_hashify( $this->opt('tm_latest_main_bg', $oset)) : '#ffffff';
+		$border  = ( $this->opt('tm_latest_menu_border', $oset) ) ? pl_hashify( $this->opt('tm_latest_menu_border', $oset)) : '#EEEEEE';
+		$shadow  = ( $this->opt('tm_latest_shadow', $oset) ) ? pl_hashify( $this->opt('tm_latest_shadow', $oset)) : '#e4e4e4';
+		$title   = ( $this->opt('tm_latest_title_color', $oset) ) ? pl_hashify( $this->opt('tm_latest_title_color', $oset)) : '#4c4c4c';
+		$text    = ( $this->opt('tm_latest_text_color', $oset) ) ? pl_hashify( $this->opt('tm_latest_text_color', $oset)) : '#555555';
+
+
+
 	?>
 		<style>
-			.latest<?php echo $clone_id?> ul.slides li{
+			.latest<?php echo $clone_id?> ul.slides li,
+			<?php echo $this->dmshify() ?> ul.slides li{
 				background:<?php echo $main_bg ?>;
 				border: 1px solid <?php echo $border ?>;
 			}
-			.latest<?php echo $clone_id?> ul.slides li:hover {
+			.latest<?php echo $clone_id?> ul.slides li:hover,
+			<?php echo $this->dmshify() ?> ul.slides li:hover {
 			    -webkit-box-shadow: 3px 3px 0 <?php echo $shadow ?>;
 			    -moz-box-shadow: 3px 3px 0 <?php echo $shadow ?>;
 			    box-shadow: 3px 3px 0 <?php echo $shadow ?>;
 			}
-			.latest<?php echo $clone_id?> ul.slides li h3 a{
+			.latest<?php echo $clone_id?> ul.slides li h3 a,
+			<?php echo $this->dmshify() ?> u.slides li h3 a{
 				color:<?php echo $title ?> !important;
 			}
-			.latest<?php echo $clone_id?> ul.slides li{
+			.latest<?php echo $clone_id?> ul.slides li,
+			<?php echo $this->dmshify() ?> ul.slides li{
 				color:<?php echo $text ?> !important;
 			}
-			.latest<?php echo $clone_id?> .block-title span{
+			.latest<?php echo $clone_id?> .block-title span,
+			<?php echo $this->dmshify() ?> .block-title span{
 				background:<?php echo $section_bg ?> !important;
 			}
 		</style>
 		<script>
 			jQuery(document).ready(function($) {
 				function renderLatest(){
-					$(".latest<?php echo $clone_id?> .slides").each( function(a, b){
+					$("<?php echo $jsTarget ?> .slides").each( function(a, b){
+
 						var highest = 0;
 						$this = $(this);
-
 						$this.find('li').each(function(a, item){
 							highest = ( $(item).height() > highest ) ? $(item).height() : highest;
 						});
-
 
 						$this.find('li').each(function(a, item){
 							$item = $(item);
@@ -114,12 +139,12 @@ class TmLatestBlog extends PageLinesSection {
 							} );
 						});
 
-					});			
+					});
 
-					$(".latest<?php echo $clone_id?> .slides").carouFredSel({
+					$("<?php echo $jsTarget ?> .slides").carouFredSel({
 						align       : "center",
 						width:'100%',
-						<?php echo ( $disable_autostart ) ? 'auto:false,' : 'auto: {pauseDuration:'.$pause_duration.'},'?>
+						<?php echo ( $disable_autostart ) ? 'auto:false,' : 'auto: {timeoutDuration:'.$pause_duration.'},'?>
 						scroll: {
 							duration:<?php echo $effect_duration?>,
 							fx: '<?php echo $effect?>',
@@ -133,31 +158,33 @@ class TmLatestBlog extends PageLinesSection {
 			});
 		</script>
 	<?php
-	} 
+	}
 
 
 
  	function section_template( $clone_id = null ) {
  		global $post, $pagelines_ID;
 
+		$clone_id      = function_exists('pl_has_editor') ? $this->get_dms_clone_id( $this->prefix() ) : $clone_id;
+
 		$current_page_post = $post;
 		$oset              = array('post_id' => $pagelines_ID, 'clone_id' => $clone_id);
-		$limit             = ( ploption('tm_latest_items', $oset) ) ? ploption('tm_latest_items', $oset) : '8';
-		$set               = ( ploption('tm_latest_set', $oset) ) ? ploption('tm_latest_set', $oset) : null;
-		$title             = ( ploption('tm_latest_title', $oset) ) ? ploption('tm_latest_title', $oset) : 'Latest from the Blog';
-		
-		$show_thumb        =  ( ploption('tm_latest_thumb', $oset) == 'on') ? false : true;
-		$show_title        =  ( ploption('tm_latest_show_title', $oset) == 'on') ? false : true;
+		$limit             = ( $this->opt('tm_latest_items', $oset) ) ? $this->opt('tm_latest_items', $oset) : '8';
+		$set               = ( $this->opt('tm_latest_set', $oset) ) ? $this->opt('tm_latest_set', $oset) : null;
+		$title             = ( $this->opt('tm_latest_title', $oset) ) ? $this->opt('tm_latest_title', $oset) : 'Latest from the Blog';
 
-		$use_wp_excerpt 	=  ( ploption('tm_use_wp_excerpt', $oset) == 'on') ? false : true;
- 		
-		$show_date         =  ( ploption('tm_latest_date', $oset) == 'on') ? false : true;
-		$show_excerpt      =  ( ploption('tm_latest_excerpt', $oset) == 'on') ? false : true;
-		$show_read_more    =  ( ploption('tm_latest_read_more', $oset) == 'on') ? false : true;
-		$read_more_text    =  ( ploption('tm_latest_read_more_text', $oset ) ) ? ploption('tm_latest_read_more_text', $oset )  : 'Read More';
-		
-		$limit_excerpt     = ( ploption('tm_limit_excerpt', $oset) ) ? ploption('tm_limit_excerpt', $oset) : '20';
-		
+		$show_thumb        =  ( $this->opt('tm_latest_thumb', $oset) == 'on'  || $this->opt('tm_latest_thumb', $oset) == '1'  ) ? false : true;
+		$show_title        =  ( $this->opt('tm_latest_show_title', $oset) == 'on'  || $this->opt('tm_latest_show_title', $oset) == '1') ? false : true;
+
+		$use_wp_excerpt 	=  ( $this->opt('tm_use_wp_excerpt', $oset) == 'on'  || $this->opt('tm_use_wp_excerpt', $oset) == '1') ? false : true;
+
+		$show_date         =  ( $this->opt('tm_latest_date', $oset) == 'on'  || $this->opt('tm_latest_date', $oset) == '1') ? false : true;
+		$show_excerpt      =  ( $this->opt('tm_latest_excerpt', $oset) == 'on'  || $this->opt('tm_latest_excerpt', $oset) == '1') ? false : true;
+		$show_read_more    =  ( $this->opt('tm_latest_read_more', $oset) == 'on'  || $this->opt('tm_latest_read_more', $oset) == '1') ? false : true;
+		$read_more_text    =  ( $this->opt('tm_latest_read_more_text', $oset ) ) ? $this->opt('tm_latest_read_more_text', $oset )  : 'Read More';
+
+		$limit_excerpt     = ( $this->opt('tm_limit_excerpt', $oset) ) ? $this->opt('tm_limit_excerpt', $oset) : '20';
+
 
 		$posts = $this->get_posts( $set, $limit );
 		if( !count($posts) ){
@@ -166,14 +193,14 @@ class TmLatestBlog extends PageLinesSection {
 		}
 
 
-	
+
 
  	?>
 
- 		
+
 		<div class="latest-slider latest<?php echo $clone_id?>">
 			<h1 class="block-title">
-				<span> <?php echo $title?> </span>
+				<span data-sync="tm_latest_title"> <?php echo $title?> </span>
 			</h1>
 			<ul class="slides">
 				<?php foreach ($posts as $post): global $post; setup_postdata( $post ); $img = wp_get_attachment_image_src( $post->ID ); ?>
@@ -183,50 +210,50 @@ class TmLatestBlog extends PageLinesSection {
 								<a href="<?php the_permalink() ?>" title="<?php the_title() ?>">
 									<?php echo the_post_thumbnail( 'latest' ) ?>
 								</a>
-							</div>	
+							</div>
 						<?php endif ?>
-						
+
 						<div class="blog-title">
 							<?php if ($show_title): ?>
 								<div class="big">
 									<h3><a href="<?php the_permalink()?>"><?php the_title()?></a></h3>
-								</div>	
+								</div>
 							<?php endif ?>
 						</div>
 						<?php if ($show_date): ?>
-							<p class="post-meta"><?php echo get_the_date(); ?></p>	
+							<p class="post-meta"><?php echo get_the_date(); ?></p>
 						<?php endif ?>
-						
+
 						<div class="clear"></div>
-						
+
 						<?php if ($show_excerpt): ?>
 							<div class="excerpt">
 								<?php if ($use_wp_excerpt): ?>
 									<p><?php echo $this->latest_excerpt( get_the_excerpt(), $limit_excerpt ); ?></p>
-								<?php else: ?>	
+								<?php else: ?>
 									<p><?php echo $this->latest_excerpt( get_the_content(), $limit_excerpt ); ?></p>
 								<?php endif ?>
-								
-							</div>	
+
+							</div>
 							<div class="clear"></div>
 						<?php endif ?>
-						
+
 						<?php if ($show_read_more): ?>
 							<div class="read-more">
 								<a href="<?php the_permalink() ?>"><?php echo $read_more_text ?></a>
-							</div>	
+							</div>
 						<?php endif ?>
-						
-					</li>	
+
+					</li>
 				<?php endforeach; $post = $current_page_post; ?>
-				
+
 			</ul>
 			<div class="clearfix"></div>
 			<div class="latest_pagination">
 				<div class="nav" id="prev_pag"></div>
-		    	<div class="nav" id="next_pag"></div>	
+		    	<div class="nav" id="next_pag"></div>
 			</div>
-		    
+
 		</div>
 
  	<?php
@@ -235,7 +262,7 @@ class TmLatestBlog extends PageLinesSection {
 	/**
 	 *
 	 * Section Page Options
-	 * 
+	 *
 	 * Section optionator is designed to handle section options.
 	 */
 	function section_optionator( $settings ){
@@ -263,36 +290,44 @@ class TmLatestBlog extends PageLinesSection {
 				'title' 		=> __('Number of post', $this->domain),
 				'shortexp'		=> __('Default value is 8', $this->domain),
 				'exp'			=> __('The amount of post to show.', $this->domain),
-				'count_start'	=> 1, 
+				'count_start'	=> 1,
  				'count_number'	=> 20,
 			),
 
-			'tm_latest_background' =>	array(
-				'type'			=> 'color_multi',
-				'layout'		=> 'full',
-				'title'			=> __('Items Colors', $this->domain),
-				'shortexp'		=> __('Configure the colors to use.', $this->domain),
-				'selectvalues'	=> array(
-					'tm_latest_section_title_bg'	=> array(				
-						'inputlabel' 	=> __( 'Section title Background', $this->domain ),
-					),
-					'tm_latest_main_bg'	=> array(				
-						'inputlabel' 	=> __( 'Background', $this->domain ),
-					),
-					'tm_latest_menu_border'	=> array(				
-						'inputlabel' 	=> __( 'Border', $this->domain ),
-					),
-					'tm_latest_shadow'	=> array(				
-						'inputlabel' 	=> __( 'Shadow', $this->domain ),
-					),
-					'tm_latest_title_color'	=> array(				
-						'inputlabel' 	=> __( 'Title', $this->domain ),
-					)
-					,
-					'tm_latest_text_color'	=> array(				
-						'inputlabel' 	=> __( 'Text', $this->domain ),
-					)
-				),
+			'tm_latest_section_title_bg'  => array(
+                'inputlabel' 	=> __( 'Color', $this->domain ),
+                'type' => 'colorpicker',
+                'title' => __( 'Section Title Background', $this->domain )
+            ),
+
+			'tm_latest_main_bg'	=> array(
+				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'type' => 'colorpicker',
+                'title' => __( 'Item Background', $this->domain )
+			),
+
+			'tm_latest_menu_border'	=> array(
+				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'type' => 'colorpicker',
+                'title' => __( 'Item Border', $this->domain )
+			),
+
+			'tm_latest_shadow'	=> array(
+				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'type' => 'colorpicker',
+                'title' => __( 'Item Shadow', $this->domain )
+			),
+
+			'tm_latest_title_color'	=> array(
+				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'type' => 'colorpicker',
+                'title' => __( 'Title Background', $this->domain ),
+			),
+
+			'tm_latest_text_color'	=> array(
+				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'type' => 'colorpicker',
+                'title' => __( 'Content Text', $this->domain ),
 			),
 
 			'tm_latest_thumb' => array(
@@ -399,14 +434,14 @@ class TmLatestBlog extends PageLinesSection {
 				'exp'			=> 'The amount of milliseconds the carousel will pause. 1000 = 1 second',
 			),
 
-				
+
 		);
 
 		$settings = array(
 			'id' 		=> $this->id.'_meta',
 			'name' 		=> $this->name,
-			'icon' 		=> $this->icon, 
-			'clone_id'	=> $settings['clone_id'], 
+			'icon' 		=> $this->icon,
+			'clone_id'	=> $settings['clone_id'],
 			'active'	=> $settings['active']
 		);
 
@@ -416,11 +451,11 @@ class TmLatestBlog extends PageLinesSection {
 	function get_posts( $set = null, $limit = null){
 		$query                  = array();
 		$query['category_name'] = $set;
-		
+
 		if(isset($limit)){
 			$query['showposts'] = $limit;
 		}
-		
+
 		$q = new WP_Query($query);
 
 		if(is_array($q->posts))
@@ -435,7 +470,7 @@ class TmLatestBlog extends PageLinesSection {
 		$text = apply_filters('the_content', $text);
 		$text = str_replace(']]>', ']]&gt;', $text);
 		$excerpt_more = apply_filters('excerpt_more', ' ' . '[...]');
-		$text = wp_trim_words( $text, $limit, $excerpt_more );	
+		$text = wp_trim_words( $text, $limit, $excerpt_more );
 		return $text;
 	}
 
