@@ -3,7 +3,7 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez
 Author URI: http://tmeister.net
-Version: 1.0.5
+Version: 1.1
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
@@ -15,25 +15,6 @@ V3: true
 
 
 class TmLatestBlog extends PageLinesSection {
-
-	/**
-	 *
-	 * Section Variable Glossary (Auto Generated)
-	 * ------------------------------------------------
-	 *  $this->id			- The unique section slug & folder name
-	 *  $this->base_url 	- The root section URL
-	 *  $this->base_dir 	- The root section directory path
-	 *  $this->name 		- The section UI name
-	 *  $this->description	- The section description
-	 *  $this->images		- The root section images URL
-	 *  $this->icon 		- The section icon url
-	 *  $this->screen		- The section screenshot url
-	 *  $this->oset			- Option settings array... needed for '$this->opt' (contains clone_id, post_id)
-	 *
-	 * 	Advanced Variables
-	 * 		$this->view				- If the section is viewed on a page, archive, or single post
-	 * 		$this->template_type	- The PageLines template type
-	 */
 
 	var $domain = 'tm_latest';
 
@@ -185,8 +166,10 @@ class TmLatestBlog extends PageLinesSection {
 
 		$limit_excerpt     = ( $this->opt('tm_limit_excerpt', $oset) ) ? $this->opt('tm_limit_excerpt', $oset) : '20';
 
+		$hide_section_title        =  ( $this->opt('tm_latest_show_section_head', $oset) == 'on'  || $this->opt('tm_latest_show_section_head', $oset) == '1') ? true : false;
 
 		$posts = $this->get_posts( $set, $limit );
+
 		if( !count($posts) ){
 			echo setup_section_notify($this, __('Sorry, there are no posts to display.', 'post'), get_admin_url().'edit.php?post_type=post', 'Please create some posts' );
 			return;
@@ -199,9 +182,11 @@ class TmLatestBlog extends PageLinesSection {
 
 
 		<div class="latest-slider latest<?php echo $clone_id?>">
-			<h1 class="block-title">
-				<span data-sync="tm_latest_title"> <?php echo $title?> </span>
-			</h1>
+			<?php if ( ! $hide_section_title): ?>
+				<h1 class="block-title">
+					<span data-sync="tm_latest_title"> <?php echo $title?> </span>
+				</h1>
+			<?php endif ?>
 			<ul class="slides">
 				<?php foreach ($posts as $post): global $post; setup_postdata( $post ); $img = wp_get_attachment_image_src( $post->ID ); ?>
 					<li class="post">
@@ -276,6 +261,13 @@ class TmLatestBlog extends PageLinesSection {
 				'shortexp'		=> __('Default: "Latest from the Blog"', $this->domain),
 				'exp'			=> __('If set the title will show on the top of the section', $this->domain),
 			),
+			'tm_latest_show_section_head' 	=> array(
+				'type'			=> 'check',
+				'inputlabel'	=> __('Hide Title', $this->domain),
+				'title' 		=> __('Hide Title', $this->domain),
+				'shortexp'		=> __('Default: Visible', $this->domain),
+				'exp'			=> __('Determines whether to show the section title.', $this->domain)
+			),
 			'tm_latest_set' 	=> array(
 				'type' 			=> 'select_taxonomy',
 				'taxonomy_id'	=> 'category',
@@ -292,42 +284,49 @@ class TmLatestBlog extends PageLinesSection {
 				'exp'			=> __('The amount of post to show.', $this->domain),
 				'count_start'	=> 1,
  				'count_number'	=> 20,
+ 				'default' => 8
 			),
 
 			'tm_latest_section_title_bg'  => array(
                 'inputlabel' 	=> __( 'Color', $this->domain ),
                 'type' => 'colorpicker',
-                'title' => __( 'Section Title Background', $this->domain )
+                'title' => __( 'Section Title Background', $this->domain ),
+                'default' => '#f7f7f7'
             ),
 
 			'tm_latest_main_bg'	=> array(
 				'inputlabel' 	=> __( 'Color', $this->domain ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Background', $this->domain )
+                'title' => __( 'Item Background', $this->domain ),
+                'default' => '#ffffff'
 			),
 
 			'tm_latest_menu_border'	=> array(
 				'inputlabel' 	=> __( 'Color', $this->domain ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Border', $this->domain )
+                'title' => __( 'Item Border', $this->domain ),
+                'default' => '#EEEEEE'
 			),
 
 			'tm_latest_shadow'	=> array(
 				'inputlabel' 	=> __( 'Color', $this->domain ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Shadow', $this->domain )
+                'title' => __( 'Item Shadow', $this->domain ),
+                'default' => '#e4e4e4'
 			),
 
 			'tm_latest_title_color'	=> array(
 				'inputlabel' 	=> __( 'Color', $this->domain ),
 				'type' => 'colorpicker',
                 'title' => __( 'Title Background', $this->domain ),
+                'default' => '#4c4c4c'
 			),
 
 			'tm_latest_text_color'	=> array(
 				'inputlabel' 	=> __( 'Color', $this->domain ),
 				'type' => 'colorpicker',
                 'title' => __( 'Content Text', $this->domain ),
+                'default' => '#555555'
 			),
 
 			'tm_latest_thumb' => array(
