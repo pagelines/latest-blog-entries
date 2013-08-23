@@ -291,7 +291,7 @@ class TmLatestBlog extends PageLinesSection {
                 'inputlabel' 	=> __( 'Color', $this->domain ),
                 'type' => 'colorpicker',
                 'title' => __( 'Section Title Background', $this->domain ),
-                'default' => '#f7f7f7'
+                'default' => '#ffffff'
             ),
 
 			'tm_latest_main_bg'	=> array(
