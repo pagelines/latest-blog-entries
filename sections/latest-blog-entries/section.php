@@ -16,11 +16,53 @@ V3: true
 
 class TmLatestBlog extends PageLinesSection {
 
-	var $domain = 'tm_latest';
+	var $domain          = 'tm_latest';
+	var $section_name    = 'Latest Blog Entries';
+	var $section_version = '1.1';
+	var $option_name     = 'latest_blog_license_key';
+	var $section_key ;
+	var $chavezShop;
 
 	function section_persistent(){
 		add_image_size('latest', 180, 100, true);
+		$this->verify_license();
+		add_filter('pl_sorted_settings_array', array(&$this, 'add_global_panel'));
 	}
+
+	function verify_license(){
+        if( !class_exists( 'chavezShopVerifier' ) ) {
+            include( dirname( __FILE__ ) . '/inc/chavezshop_verifier.php' );
+        }
+        $this->chavezShop = new chavezShopVerifier( $this->section_name, $this->section_version, $this->opt($this->option_name) );
+    }
+
+    function add_global_panel($settings){
+        $valid = "";
+        if( get_option( $this->section_key."_activated" ) ){
+            $valid = ( $this->chavezShop->check_license() ) ? ' - Your license is valid' : ' - Your license is invalid';
+        }
+
+        if( !isset( $settings['eChavez'] ) ){
+            $settings['eChavez'] = array(
+                'name' => 'Enrique Chavez Shop',
+                'icon' => 'icon-shopping-cart',
+                'opts' => array()
+            );
+        }
+
+        $collapser_opts = array(
+            'key'   => $this->option_name,
+            'type'  => 'text',
+            'title' => '<i class="icon-shopping-cart"></i> ' . __('Latest Blog License Key', $this->domain) . $valid,
+            'label' => __('License Key', $this->domain),
+            'help'  => __('The section is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', $this->domain)
+
+        );
+
+        array_push($settings['eChavez']['opts'], $collapser_opts);
+        return $settings;
+
+    }
 
 	function section_scripts(){
 		return array(
