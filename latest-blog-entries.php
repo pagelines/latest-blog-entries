@@ -17,7 +17,7 @@ function latest_check_for_updates(){
 
 	if( get_option( $item_key."_activated" )){
 		if( !class_exists( 'EDD_SL_Plugin_Updater' ) ) {
-			include( dirname( __FILE__ ) . '/sections/collapser/inc/EDD_SL_Plugin_Updater.php' );
+			include( dirname( __FILE__ ) . '/sections/latest-blog-entries/inc/EDD_SL_Plugin_Updater.php' );
 		}
 
 		$license_key = trim( get_option( $item_key."_license", $default = false ) );
