@@ -53,9 +53,9 @@ class TmLatestBlog extends PageLinesSection {
         $collapser_opts = array(
             'key'   => $this->option_name,
             'type'  => 'text',
-            'title' => '<i class="icon-shopping-cart"></i> ' . __('Latest Blog License Key', $this->domain) . $valid,
-            'label' => __('License Key', $this->domain),
-            'help'  => __('The section is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', $this->domain)
+            'title' => '<i class="icon-shopping-cart"></i> ' . __('Latest Blog License Key', 'tm_latest') . $valid,
+            'label' => __('License Key', 'tm_latest'),
+            'help'  => __('The section is fully functional whitout a key license, this license is used only get access to autoupdates within your admin.', 'tm_latest')
 
         );
 
@@ -298,160 +298,174 @@ class TmLatestBlog extends PageLinesSection {
 		$opt_array = array(
 			'tm_latest_title' 	=> array(
 				'type'			=> 'text',
-				'inputlabel'	=> __('Title', $this->domain),
-				'title' 		=> __('Section Title', $this->domain),
-				'shortexp'		=> __('Default: "Latest from the Blog"', $this->domain),
-				'exp'			=> __('If set the title will show on the top of the section', $this->domain),
+				'inputlabel'	=> __('Title', 'tm_latest'),
+				'title' 		=> __('Section Title', 'tm_latest'),
+				'shortexp'		=> __('Default: "Latest from the Blog"', 'tm_latest'),
+				'exp'			=> __('If set the title will show on the top of the section', 'tm_latest'),
 			),
 			'tm_latest_show_section_head' 	=> array(
 				'type'			=> 'check',
-				'inputlabel'	=> __('Hide Title', $this->domain),
-				'title' 		=> __('Hide Title', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the section title.', $this->domain)
+				'inputlabel'	=> __('Hide Title', 'tm_latest'),
+				'title' 		=> __('Hide Title', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the section title.', 'tm_latest')
 			),
 			'tm_latest_set' 	=> array(
 				'type' 			=> 'select_taxonomy',
 				'taxonomy_id'	=> 'category',
-				'title' 		=> __('Select the category to show', $this->domain),
-				'shortexp'		=> __('The category to show', $this->domain),
-				'inputlabel'	=> __('Select a category', $this->domain),
-				'exp' 			=> __('Select the category you would like to show on this page. if don\'t select a set the slider will show the last entries for all the categories', $this->domain)
+				'title' 		=> __('Select the category to show', 'tm_latest'),
+				'shortexp'		=> __('The category to show', 'tm_latest'),
+				'inputlabel'	=> __('Select a category', 'tm_latest'),
+				'exp' 			=> __('Select the category you would like to show on this page. if don\'t select a set the slider will show the last entries for all the categories', 'tm_latest')
 			),
 			'tm_latest_items' => array(
 				'type' 			=> 'count_select',
-				'inputlabel'	=> __('Number of post to show', $this->domain),
-				'title' 		=> __('Number of post', $this->domain),
-				'shortexp'		=> __('Default value is 8', $this->domain),
-				'exp'			=> __('The amount of post to show.', $this->domain),
+				'inputlabel'	=> __('Number of post to show', 'tm_latest'),
+				'title' 		=> __('Number of post', 'tm_latest'),
+				'shortexp'		=> __('Default value is 8', 'tm_latest'),
+				'exp'			=> __('The amount of post to show.', 'tm_latest'),
 				'count_start'	=> 1,
  				'count_number'	=> 20,
  				'default' => 8
 			),
 
 			'tm_latest_section_title_bg'  => array(
-                'inputlabel' 	=> __( 'Color', $this->domain ),
+                'inputlabel' 	=> __( 'Color', 'tm_latest' ),
                 'type' => 'colorpicker',
-                'title' => __( 'Section Title Background', $this->domain ),
+                'title' => __( 'Section Title Background', 'tm_latest' ),
                 'default' => '#ffffff'
             ),
 
 			'tm_latest_main_bg'	=> array(
-				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'inputlabel' 	=> __( 'Color', 'tm_latest' ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Background', $this->domain ),
+                'title' => __( 'Item Background', 'tm_latest' ),
                 'default' => '#ffffff'
 			),
 
 			'tm_latest_menu_border'	=> array(
-				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'inputlabel' 	=> __( 'Color', 'tm_latest' ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Border', $this->domain ),
-                'default' => '#EEEEEE'
+                'title' => __( 'Item Border', 'tm_latest' ),
+                'default' => '#EEEEEE',
+                'col' => 1
 			),
 
 			'tm_latest_shadow'	=> array(
-				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'inputlabel' 	=> __( 'Color', 'tm_latest' ),
 				'type' => 'colorpicker',
-                'title' => __( 'Item Shadow', $this->domain ),
-                'default' => '#e4e4e4'
+                'title' => __( 'Item Shadow', 'tm_latest' ),
+                'default' => '#e4e4e4',
+                'col' => 1
 			),
 
 			'tm_latest_title_color'	=> array(
-				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'inputlabel' 	=> __( 'Color', 'tm_latest' ),
 				'type' => 'colorpicker',
-                'title' => __( 'Title Background', $this->domain ),
-                'default' => '#4c4c4c'
+                'title' => __( 'Title Background', 'tm_latest' ),
+                'default' => '#4c4c4c',
+                'col' => 1
 			),
 
 			'tm_latest_text_color'	=> array(
-				'inputlabel' 	=> __( 'Color', $this->domain ),
+				'inputlabel' 	=> __( 'Color', 'tm_latest' ),
 				'type' => 'colorpicker',
-                'title' => __( 'Content Text', $this->domain ),
-                'default' => '#555555'
+                'title' => __( 'Content Text', 'tm_latest' ),
+                'default' => '#555555',
+                'col' => 1
 			),
 
 			'tm_latest_thumb' => array(
 				'type'			=> 'check',
-				'title'			=> __('Show Thumbnail image', $this->domain),
-				'inputlabel'	=> __('Don\'t show the thumbnail image ', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the thumbnail image.', $this->domain)
+				'title'			=> __('Show Thumbnail image', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t show the thumbnail image ', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the thumbnail image.', 'tm_latest'),
+                'col' => 1
 			),
 			'tm_latest_show_title' => array(
 				'type'			=> 'check',
-				'title'			=> __('Show title', $this->domain),
-				'inputlabel'	=> __('Don\'t show the title', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the post title.', $this->domain)
+				'title'			=> __('Show title', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t show the title', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the post title.', 'tm_latest'),
+                'col' => 1
 			),
 			'tm_latest_date' => array(
 				'type'			=> 'check',
-				'title'			=> __('Show Date', $this->domain),
-				'inputlabel'	=> __('Don\'t show the date', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the post date.', $this->domain)
+				'title'			=> __('Show Date', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t show the date', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the post date.', 'tm_latest'),
+                'col' => 2
 			),
 			'tm_latest_excerpt' => array(
 				'type'			=> 'check',
-				'title'			=> __('Show Excerpt', $this->domain),
-				'inputlabel'	=> __('Don\'t show the excerpt', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the post excerpt.', $this->domain)
+				'title'			=> __('Show Excerpt', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t show the excerpt', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the post excerpt.', 'tm_latest'),
+                'col' => 2
 			),
 			'tm_use_wp_excerpt' => array(
 				'type'			=> 'check',
-				'title'			=> __('WP Excerpt', $this->domain),
-				'inputlabel'	=> __('Don\'t use the WP excerpt', $this->domain),
-				'shortexp'		=> __('Default: WP Excerpt', $this->domain),
-				'exp'			=> __('Determines whether to use the WP excerpt text or use the post content instead. to show the post excerpt.', $this->domain)
+				'title'			=> __('WP Excerpt', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t use the WP excerpt', 'tm_latest'),
+				'shortexp'		=> __('Default: WP Excerpt', 'tm_latest'),
+				'exp'			=> __('Determines whether to use the WP excerpt text or use the post content instead. to show the post excerpt.', 'tm_latest'),
+                'col' => 2
 			),
 			'tm_limit_excerpt' => array(
 				'type' 			=> 'count_select',
-				'title'			=> __('Excerpt - Words to show', $this->domain),
-				'inputlabel'	=> __('Words', $this->domain),
-				'shortexp'		=> __('Default: 20', $this->domain),
-				'exp'			=> __('In any case, whether you use wp excerpt or the post content, determine how many words you want to display in each box.', $this->domain),
+				'title'			=> __('Excerpt - Words to show', 'tm_latest'),
+				'inputlabel'	=> __('Words', 'tm_latest'),
+				'shortexp'		=> __('Default: 20', 'tm_latest'),
+				'exp'			=> __('In any case, whether you use wp excerpt or the post content, determine how many words you want to display in each box.', 'tm_latest'),
 				'count_start'	=> 5,
  				'count_number'	=> 50,
+                'col' => 2
 			),
 			'tm_latest_read_more' => array(
 				'type'			=> 'check',
-				'title'			=> __('Show read more', $this->domain),
-				'inputlabel'	=> __('Don\'t show the read more', $this->domain),
-				'shortexp'		=> __('Default: Visible', $this->domain),
-				'exp'			=> __('Determines whether to show the post read more.', $this->domain)
+				'title'			=> __('Show read more', 'tm_latest'),
+				'inputlabel'	=> __('Don\'t show the read more', 'tm_latest'),
+				'shortexp'		=> __('Default: Visible', 'tm_latest'),
+				'exp'			=> __('Determines whether to show the post read more.', 'tm_latest'),
+                'col' => 2
 			),
 
 			'tm_latest_read_more_text' => array(
 				'type'			=> 'text',
-				'title'			=> __('"Read More" text', $this->domain),
-				'inputlabel'	=> __('Text to show', $this->domain),
-				'shortexp'		=> __('Default: Read More', $this->domain),
-				'exp'			=> __('Change the "Read More" text to show in the link.', $this->domain)
+				'title'			=> __('"Read More" text', 'tm_latest'),
+				'inputlabel'	=> __('Text to show', 'tm_latest'),
+				'shortexp'		=> __('Default: Read More', 'tm_latest'),
+				'exp'			=> __('Change the "Read More" text to show in the link.', 'tm_latest'),
+                'col' => 2
 			),
 
 
 			'tm_latest_autostart' => array(
 				'type'			=> 'check',
-				'title'			=> __('Disable autostart scroll', $this->domain),
-				'inputlabel'	=> __('Disable Autostart scroll', $this->domain),
-				'shortexp'		=> __('', $this->domain),
-				'exp'			=> __('Determines whether the slider auto scroll.', $this->domain)
+				'title'			=> __('Disable autostart scroll', 'tm_latest'),
+				'inputlabel'	=> __('Disable Autostart scroll', 'tm_latest'),
+				'shortexp'		=> __('', 'tm_latest'),
+				'exp'			=> __('Determines whether the slider auto scroll.', 'tm_latest'),
+                'col' => 3
 			),
 			'tm_latest_effect' => array(
 				'title'			=> 'Transition Effect',
 				'type'         	=> 'select',
 				'selectvalues' 	=> array(
-					'scroll'    => array('name' => __( 'Scroll', $this->domain) ),
-					'fade'      => array('name' => __( 'Fade', $this->domain) ),
-					'crossfade' => array('name' => __( 'CrossFade', $this->domain) ),
-					'cover'     => array('name' => __( 'Cover', $this->domain) ),
-					'uncover'   => array('name' => __( 'UnCover', $this->domain) ),
+					'scroll'    => array('name' => __( 'Scroll', 'tm_latest') ),
+					'fade'      => array('name' => __( 'Fade', 'tm_latest') ),
+					'crossfade' => array('name' => __( 'CrossFade', 'tm_latest') ),
+					'cover'     => array('name' => __( 'Cover', 'tm_latest') ),
+					'uncover'   => array('name' => __( 'UnCover', 'tm_latest') ),
 				),
-				'inputlabel'   	=> __( 'Select the transition effect', $this->domain ),
+				'inputlabel'   	=> __( 'Select the transition effect', 'tm_latest' ),
 				'shortexp' 		=> 'Default value: Scroll',
-				'exp'      		=> 'Indicates which effect to use for the transition.'
+				'exp'      		=> 'Indicates which effect to use for the transition.',
+                'col' => 3
 			),
 			'tm_latest_effect_duration' 	=> array(
 				'type'			=> 'text',
@@ -459,13 +473,15 @@ class TmLatestBlog extends PageLinesSection {
 				'title' 		=> 'Transition Time',
 				'shortexp'		=> 'Default value: 4 seconds.',
 				'exp'			=> 'Determines the duration of the transition in milliseconds. 1000 = 1 second',
+                'col' => 3
 			),
 			'tm_latest_pause_on_hover' => array(
 				'type'			=> 'check',
-				'title'			=> __('Pause on hover', $this->domain),
-				'inputlabel'	=> __('Pause on hover', $this->domain),
-				'shortexp'		=> __('', $this->domain),
-				'exp'			=> __('Determines whether the timeout between transitions should be paused "onMouseOver"', $this->domain)
+				'title'			=> __('Pause on hover', 'tm_latest'),
+				'inputlabel'	=> __('Pause on hover', 'tm_latest'),
+				'shortexp'		=> __('', 'tm_latest'),
+				'exp'			=> __('Determines whether the timeout between transitions should be paused "onMouseOver"', 'tm_latest'),
+                'col' => 3
 			),
 			'tm_latest_duration_pause' 	=> array(
 				'type'			=> 'text',
@@ -473,6 +489,7 @@ class TmLatestBlog extends PageLinesSection {
 				'title' 		=> 'Pause Duration',
 				'shortexp'		=> '',
 				'exp'			=> 'The amount of milliseconds the carousel will pause. 1000 = 1 second',
+                'col' => 3
 			),
 
 
