@@ -3,14 +3,14 @@
 Section: Latest Blog Entries
 Author: Enrique Chávez
 Author URI: http://tmeister.net
-Version: 1.1
+Version: 1.2
 Description: Latest Blogs Entries is a very powerful section for Pagelines which displays your recent posts with thumbnail, excerpt, title, date and read more link . It’s the perfect solution to show specific entries on the home page or in any other page. With more that 15 options in general.
 Class Name: TmLatestBlog
 Cloning: true
 External: http://tmeister.net/themes-and-sections/latest-blog-entries/
 Demo: http://pagelines.tmeister.net/latest-blog-posts/
 Workswith: templates, main, morefoot
-V3: true
+PageLines: true
 **/
 
 
@@ -18,15 +18,15 @@ class TmLatestBlog extends PageLinesSection {
 
 	var $domain          = 'tm_latest';
 	var $section_name    = 'Latest Blog Entries';
-	var $section_version = '1.1';
+	var $section_version = '1.2';
 	var $option_name     = 'latest_blog_license_key';
 	var $section_key ;
 	var $chavezShop;
 
 	function section_persistent(){
 		add_image_size('latest', 180, 100, true);
-		$this->verify_license();
-		add_filter('pl_sorted_settings_array', array(&$this, 'add_global_panel'));
+		//$this->verify_license();
+		//add_filter('pl_sorted_settings_array', array(&$this, 'add_global_panel'));
 	}
 
 	function verify_license(){
